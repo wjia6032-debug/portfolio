@@ -24,18 +24,33 @@ projects.forEach((project,index)=>{
   let currentImage = 0;
   let clickTimer;
   button.title = '单击查看下一张 · 双击放大 · Shift + Enter 放大';
-  button.innerHTML=`<div class="project-image"><img loading="lazy" src="assets/project-${project.cover}.webp" alt="${project.title} — ${project.type}"><span class="image-count">1 / ${project.images.length}</span><span class="arrow" aria-hidden="true">→</span></div><div class="project-meta"><h3>${project.title}</h3><span>${project.type} / ${String(index+1).padStart(2,'0')}</span></div><span class="interaction-hint">单击切换图片 · 双击放大查看</span>`;
-  const nextImage = () => {
-    currentImage = (currentImage + 1) % project.images.length;
-    button.querySelector('img').src = `assets/project-${project.images[currentImage]}.webp`;
-    button.querySelector('img').alt = `${project.title} — 项目展示 ${currentImage + 1}`;
+  button.innerHTML=`<div class="project-image"><img loading="lazy" decoding="async" src="assets/900/project-${project.cover}.webp" alt="${project.title} — ${project.type}"><span class="image-count" aria-live="polite">1 / ${project.images.length}</span><span class="arrow" aria-hidden="true">→</span></div><div class="project-meta"><h3>${project.title}</h3><span>${project.type} / ${String(index+1).padStart(2,'0')}</span></div><span class="interaction-hint">单击切换图片 · 双击放大查看</span>`;
+  let switching = false;
+  const nextImage = async () => {
+    if (switching) return;
+    switching = true;
+    const nextIndex = (currentImage + 1) % project.images.length;
+    const preview = new Image();
+    preview.src = `assets/900/project-${project.images[nextIndex]}.webp`;
+    button.querySelector('.image-count').textContent = '加载中…';
+    try {
+      await preview.decode();
+      currentImage = nextIndex;
+      button.querySelector('img').src = preview.src;
+      button.querySelector('img').alt = `${project.title} — 项目展示 ${currentImage + 1}`;
+    } catch {
+      button.querySelector('.image-count').textContent = '加载失败，点击重试';
+      return;
+    } finally {
+      switching = false;
+    }
     button.querySelector('.image-count').textContent = `${currentImage + 1} / ${project.images.length}`;
   };
   const openProject = () => {
     clearTimeout(clickTimer);
     document.querySelector('#dialog-title').textContent=project.title;
     document.querySelector('#dialog-type').textContent=project.type;
-    document.querySelector('#dialog-images').innerHTML=project.images.map((id,imageIndex)=>`<img src="assets/project-${id}.webp" alt="${project.title} 项目展示 ${imageIndex+1}" loading="lazy">`).join('');
+    document.querySelector('#dialog-images').innerHTML=project.images.map((id,imageIndex)=>`<img src="assets/project-${id}.webp" decoding="async" alt="${project.title} 项目展示 ${imageIndex+1}" loading="lazy">`).join('');
     dialog.showModal();document.body.classList.add('modal-open');
     dialog.querySelectorAll('#dialog-images img')[currentImage].scrollIntoView({block:'start'});
   };
