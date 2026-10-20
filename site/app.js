@@ -24,14 +24,14 @@ projects.forEach((project,index)=>{
   let currentImage = 0;
   let clickTimer;
   button.title = '单击查看下一张 · 双击放大 · Shift + Enter 放大';
-  button.innerHTML=`<div class="project-image"><img loading="lazy" decoding="async" src="assets/900/project-${project.cover}.webp" alt="${project.title} — ${project.type}"><span class="image-count" aria-live="polite">1 / ${project.images.length}</span><span class="arrow" aria-hidden="true">→</span></div><div class="project-meta"><h3>${project.title}</h3><span>${project.type} / ${String(index+1).padStart(2,'0')}</span></div><span class="interaction-hint">单击切换图片 · 双击放大查看</span>`;
+  button.innerHTML=`<div class="project-image"><img loading="lazy" decoding="async" src="assets/project-${project.cover}.webp" alt="${project.title} — ${project.type}"><span class="image-count" aria-live="polite">1 / ${project.images.length}</span><span class="arrow" aria-hidden="true">→</span></div><div class="project-meta"><h3>${project.title}</h3><span>${project.type} / ${String(index+1).padStart(2,'0')}</span></div><span class="interaction-hint">单击切换图片 · 双击放大查看</span>`;
   let switching = false;
   const nextImage = async () => {
     if (switching) return;
     switching = true;
     const nextIndex = (currentImage + 1) % project.images.length;
     const preview = new Image();
-    preview.src = `assets/900/project-${project.images[nextIndex]}.webp`;
+    preview.src = `assets/project-${project.images[nextIndex]}.webp`;
     button.querySelector('.image-count').textContent = '加载中…';
     try {
       await preview.decode();
