@@ -25,10 +25,6 @@ jobs:
         uses: actions/checkout@v4
       - name: Configure Pages
         uses: actions/configure-pages@v5
-      - name: Include original PDF for browser viewing
-        run: |
-          curl --fail --location --retry 3 --output site/portfolio.pdf https://github.com/wjia6032-debug/portfolio/releases/download/portfolio-pdf-v1/WEI-JIA-Portfolio.pdf
-          test "$(stat -c%s site/portfolio.pdf)" = "682601279"
       - name: Upload website
         uses: actions/upload-pages-artifact@v3
         with:

@@ -8,12 +8,6 @@
 .collage .f4{left:65%;right:auto;top:42%;width:20%;height:48%;--rot:8deg}
 .collage .f5{left:81%;right:auto;top:1%;width:17%;height:48%;--rot:-5deg}
 .projects{align-items:start}
-.pdf-note{font-size:12px;line-height:1.9;color:var(--muted)}
-.pdf-note a{color:var(--ink);text-decoration:underline;text-underline-offset:4px}
-.pdf-note span{margin-left:18px;font-size:10px}
-.hero-pdf{margin:22px 0 0}
-.work-pdf{margin:-15px 0 35px}
-@media(max-width:760px){.pdf-note span{display:block;margin-left:0}.work-pdf{margin:0 0 25px}}
 .profile{min-height:90svh}
 .profile-layout{display:grid;grid-template-columns:1fr 1.2fr;gap:12%;margin-top:65px}
 .profile-label{font-size:10px;letter-spacing:1px;color:var(--muted)}
